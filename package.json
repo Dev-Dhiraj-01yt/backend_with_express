@@ -2,9 +2,10 @@
   "name": "backend_with_express",
   "version": "1.0.0",
   "description": "this is a minimilistic express server with mongodb integration",
-  "main": "src/index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,9 @@
   },
   "homepage": "https://github.com/Dev-Dhiraj-01yt/backend_with_express#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
   }
 }
