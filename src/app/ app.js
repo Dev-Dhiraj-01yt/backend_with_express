@@ -14,10 +14,12 @@ const array = [];
 
 
 app.post("/", (req, res) => {
-  req.body?.username?.length > 0
-    ? array.push(req.body) &&
+  if ( req.body?.username?.length > 0 ) {
+    array.push(req.body) &&
     res.status(201).json({ message: "Data added successfully" })
-    : res.status(400).json({ message: "something is not working" });
+  }else{
+     res.status(400).json({ message: "something is not working" });
+  };
 });
 
 app.patch("/array:id", (req, res) => {
