@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
-import { User } from "../models/User.model.js";
+import { User } from "./models/User.model.js";
 const app = express();
 
 //middlewares
