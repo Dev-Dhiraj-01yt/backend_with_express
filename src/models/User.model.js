@@ -1,4 +1,4 @@
-import { Schema,model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
     user_id: {
@@ -17,8 +17,7 @@ const userSchema = new Schema({
         required: [true,"please enter your email"],
         trim: true,
         unique: true,
-        lowercase: true,
-        match: [/^\S+@\S+\.\S+\$/, "Please use a valid email address"] 
+        lowercase: true
     },
     password: {
         type: String,
