@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User } from "../models/User.model";
+import { User } from "../models/User.model.js";
 
 const delete_router = Router();
 
