@@ -1,54 +1,60 @@
 import express from "express";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import { User } from "../models/User.model.js";
 const app = express();
 
 //middlewares
 app.use(cors());
 app.use(express.json());
 
+app.post("/", async (req, res) => {
+  const { user_id, username, email, password } = req.body;
 
-const array = [];
-
-
-//  many of the apis should be asnycronus
-
-
-app.post("/", (req, res) => {
-  if ( req.body?.username?.length > 0 ) {
-    array.push(req.body) &&
-    res.status(201).json({ message: "Data added successfully" })
-  }else{
-     res.status(400).json({ message: "something is not working" });
-  };
-});
-
-app.patch("/array:id", (req, res) => {
-  const { id } = req.params;
-  const { desc, last_updateDate } = req.body;
-
-  const index = array.findIndex((item) => item.id === id);
-  if (index !== -1) {
-    array[index].desc == desc;
-    array[index].last_updateDate = last_updateDate;
-
-    res.status(200).json({ message: "Data updated successfully" });
+  if (req.body?.user_id?.length >= 4 && password?.length >= 6) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      await User.create({
+        user_id: user_id,
+        username: username,
+        email: email,
+        password: hashedPassword,
+      });
+      res.status(201).json({ message: "post created succesfully" });
+    } catch (error) {
+      res
+        .status(500)
+        .json({
+          message: "something went wrong inn database server",
+          error: error,
+        });
+      console.log(`error occured: ${error}`);
+    }
   } else {
-    res.status(404).json({ message: "Item not found" });
-  }
-});
-app.delete("/array:id", (req, res) => {
-  const { id } = req.params;
-
-  const index = array.findIndex((item) => item.id == id);
-  if (index !== -1) {
-    array.splice(index, 1)
-    res.status(200).json({ message: "Data deleted successfully" });
-  } else {
-    res.status(404).json({ message: "Item not found" });
+    res.status(404).json({ message: "please send a valid request" });
   }
 });
 
-app.get("/", (req, res) => {
-  res.status(200).json(array);
+app.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  if (id) {
+    try {
+      await User.findOneAndDelete({ user_id: id });
+      res.status(200).json({ message: "Data deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "something went wrong", error: error });
+    }
+  } else {
+    res.status(404).json({ message: "user_id is not valid" });
+  }
+});
+
+app.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong", error: error });
+  }
 });
 export default app;
