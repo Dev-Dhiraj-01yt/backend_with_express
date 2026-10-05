@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/", get_router);
-app.use("/post", post_router);
+app.use("/user", post_router);
 app.use("/user",delete_router);
 
 export default app;

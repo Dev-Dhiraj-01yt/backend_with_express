@@ -7,7 +7,7 @@ delete_router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   if (id) {
     try {
-      await User.findOneAndDelete({ user_id: id });
+      await User.findOneAndDelete({ _id: id });
       res.status(200).json({ message: "Data deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: "something went wrong", error: error });
